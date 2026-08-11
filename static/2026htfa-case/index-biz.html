@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>廠務智慧化實務說明｜黃千溥 助理教授</title>
+<meta name="description" content="廠務設備異常時，系統如何自動偵測、判斷、派工，並同步通知所有相關部門——以冷凍機與超純水系統為例。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+:root{
+  --purple:#534AB7;--purpleL:#EEEDFE;--purple3:#CECBF6;
+  --green:#1D9E75;--greenL:#E1F5EE;
+  --coral:#D85A30;--coralL:#FAECE7;
+  --amber:#BA7517;--amberL:#FAEEDA;
+  --gray9:#18181a;--gray7:#3d3d3a;--gray5:#73726c;
+  --gray3:#d3d1c7;--gray1:#f4f3ef;--white:#fff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.75;color:var(--gray7);background:var(--white)}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(0,0,0,0.07);padding:0 1.5rem;height:50px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:13px;font-weight:600;color:var(--purple);text-decoration:none}
+.nav-tech{font-size:12px;color:var(--gray5);text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-tech:hover{color:var(--purple)}
+.page{max-width:780px;margin:0 auto;padding:0 1.5rem 5rem}
+
+/* HERO */
+.hero{padding:3rem 0 2.5rem;border-bottom:1px solid rgba(0,0,0,0.07);margin-bottom:3rem}
+.eyebrow{display:inline-flex;font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--purple);background:var(--purpleL);padding:3px 11px;border-radius:99px;margin-bottom:1rem}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);font-weight:600;line-height:1.2;color:var(--gray9);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.hero-lead{font-size:17px;color:var(--gray5);margin-bottom:1.5rem;max-width:560px;line-height:1.65}
+.hero-meta{font-size:12px;color:var(--gray5)}
+
+/* SECTION */
+section{margin-bottom:3.5rem}
+.slabel{font-size:10px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem}
+h2{font-size:1.3rem;font-weight:600;color:var(--gray9);margin-bottom:0.75rem;letter-spacing:-0.015em}
+h2 span{font-weight:400;color:var(--gray5)}
+p{margin-bottom:0.75rem}
+p:last-child{margin-bottom:0}
+
+/* IMAGE */
+.img-block{margin:1.5rem 0}
+.img-block img{width:100%;border-radius:16px;border:1px solid rgba(0,0,0,0.07);display:block}
+figcaption{font-size:12px;color:var(--gray5);text-align:center;margin-top:0.5rem;font-style:italic}
+
+/* CONCEPT BOX */
+.concept{background:var(--purpleL);border-radius:16px;padding:1.25rem 1.5rem;margin:1.5rem 0;border:1px solid rgba(83,74,183,0.12)}
+.concept-title{font-size:13px;font-weight:600;color:var(--purple);margin-bottom:0.5rem}
+.concept p{font-size:14px;color:var(--purple);margin-bottom:0}
+
+/* CASE CARD */
+.case{border:1px solid rgba(0,0,0,0.08);border-radius:16px;overflow:hidden;margin-top:1.25rem}
+.case-hd{padding:1.1rem 1.5rem;display:flex;align-items:flex-start;gap:14px}
+.case-hd.hvac{background:var(--purpleL);border-bottom:1px solid rgba(83,74,183,0.1)}
+.case-hd.upw{background:var(--greenL);border-bottom:1px solid rgba(29,158,117,0.1)}
+.case-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hvac .case-ico{background:var(--purple)}
+.upw .case-ico{background:var(--green)}
+.case-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px}
+.hvac .case-lbl{color:var(--purple)}
+.upw .case-lbl{color:var(--green)}
+.case-ttl{font-size:16px;font-weight:600;color:var(--gray9)}
+.case-dsc{font-size:13px;color:var(--gray5);margin-top:3px}
+
+/* FLOW STEPS */
+.flow{padding:1.75rem 1.5rem;display:flex;flex-direction:column;gap:0}
+.fstep{display:grid;grid-template-columns:48px 1fr;gap:0 14px;position:relative}
+.fstep:not(:last-child)::before{content:'';position:absolute;left:23px;top:48px;bottom:-10px;width:2px;background:var(--gray3)}
+.fstep-l{display:flex;flex-direction:column;align-items:center;padding-top:6px}
+.fnum{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0;position:relative;z-index:1}
+.n1{background:var(--purple3);color:#26215C}
+.n2{background:#FAC775;color:#412402}
+.n3{background:var(--green);color:var(--white)}
+.n4{background:var(--purpleL);color:var(--purple);border:1.5px solid var(--purple3)}
+.n5{background:var(--coralL);color:var(--coral);border:1.5px solid #F0997B}
+
+.fstep-r{padding:4px 0 2rem}
+.fstep-label{font-size:11px;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--gray5);margin-bottom:4px}
+.fstep-title{font-size:15px;font-weight:600;color:var(--gray9);margin-bottom:6px}
+.fstep-body{font-size:14px;color:var(--gray7);line-height:1.65}
+
+/* DETAIL CARD */
+.detail{background:var(--gray1);border-radius:10px;padding:12px 14px;margin-top:8px}
+.detail-row{display:flex;align-items:baseline;gap:8px;margin-bottom:4px}
+.detail-row:last-child{margin-bottom:0}
+.detail-dot{width:5px;height:5px;border-radius:50%;background:var(--gray3);flex-shrink:0;margin-top:6px}
+.detail-txt{font-size:13px;color:var(--gray7);line-height:1.55}
+
+/* SAFETY NOTE */
+.safety{display:flex;gap:10px;align-items:flex-start;background:var(--amberL);border-radius:10px;padding:10px 13px;margin-top:8px;border-left:2px solid var(--amber)}
+.safety-ico{font-size:16px;flex-shrink:0}
+.safety-txt{font-size:13px;color:#633806;line-height:1.6}
+
+/* PROPAGATION */
+.prop-intro{font-size:14px;color:var(--gray7);margin-bottom:8px}
+.prop-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-top:8px}
+.prop-card{background:var(--coralL);border:1px solid rgba(216,90,48,0.15);border-radius:10px;padding:12px 14px}
+.prop-dept{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--coral);margin-bottom:5px}
+.prop-msg{font-size:13px;color:#4A1B0C;line-height:1.5}
+
+/* HR */
+hr{border:none;border-top:1px solid rgba(0,0,0,0.07);margin:2.5rem 0}
+
+/* VALUE GRID */
+.values{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:1.5rem 0}
+.val-card{background:var(--gray1);border-radius:12px;padding:1.25rem}
+.val-icon{font-size:22px;margin-bottom:8px}
+.val-title{font-size:14px;font-weight:600;color:var(--gray9);margin-bottom:4px}
+.val-desc{font-size:13px;color:var(--gray5);line-height:1.55}
+
+/* CTA */
+.cta-box{background:var(--purpleL);border-radius:16px;padding:2rem;text-align:center;border:1px solid rgba(83,74,183,0.12)}
+.cta-box h3{font-size:1.1rem;font-weight:600;color:var(--gray9);margin-bottom:0.5rem}
+.cta-box p{font-size:14px;color:var(--gray5);margin-bottom:1.25rem}
+.cta-btn{display:inline-block;background:var(--purple);color:var(--white);padding:10px 24px;border-radius:99px;font-size:14px;font-weight:500;text-decoration:none;transition:opacity .15s}
+.cta-btn:hover{opacity:0.88}
+.cta-detail{margin-top:1rem;font-size:12px;color:var(--gray5)}
+.cta-detail a{color:var(--purple);text-decoration:none}
+
+footer{border-top:1px solid rgba(0,0,0,0.07);padding:1.5rem 0;font-size:12px;color:var(--gray5);text-align:center}
+footer a{color:var(--purple);text-decoration:none}
+@media(max-width:520px){h1{font-size:1.4rem}.flow{padding:1.25rem 1rem}.values,.prop-cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="https://built-insight.org/">黃千溥 助理教授</a>
+  <a class="nav-tech" href="https://built-insight.org/2026htfa-case/index.html">技術版說明 →</a>
+</nav>
+
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">HTFA 2026 · 廠務業主版說明</div>
+  <h1>設備出問題時，<br>系統如何自己處理好？</h1>
+  <p class="hero-lead">我們研究的是：不靠人工盯著，廠務系統也能在問題擴大前就偵測、判斷、派工，並自動通知所有相關部門。以冷凍機與超純水為例，一步步說明。</p>
+  <div class="hero-meta">黃千溥 助理教授 · 國立臺北科技大學 · HTFA 2026</div>
+</header>
+
+<!-- VIDEO -->
+<section>
+  <div class="slabel">三分鐘了解全貌</div>
+  <h2>先看這支影片</h2>
+  <p>用最直觀的方式說明：知識模組如何像卡帶一樣插進系統，讓廠房快速獲得自動化決策能力。</p>
+  <div style="position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,0.07);margin:1.25rem 0">
+    <iframe style="position:absolute;inset:0;width:100%;height:100%;border:0"
+      src="https://www.youtube.com/embed/z-s6uSZtOwY"
+      title="廠務智慧化說明影片" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<section>
+  <div class="slabel">核心概念</div>
+  <h2>像換卡帶一樣，快速擴充廠務管理能力</h2>
+  <p>傳統做法：每換一個場景，就要重新開發系統、重新寫程式。我們的做法是把每個領域的「管理邏輯」封裝成一個獨立模組，同一套底層平台可以直接插入使用。</p>
+
+  <figure class="img-block">
+    <img src="智慧設施管理模組化系統.png" alt="可插拔模組示意圖" onerror="this.parentElement.style.display='none'">
+    <figcaption>同一套平台，插入不同模組，就能處理冷凍機、超純水、採購等不同廠務業務</figcaption>
+  </figure>
+
+  <div class="concept">
+    <div class="concept-title">每個模組封裝了三件事</div>
+    <p>① 什麼情況算異常（觸發條件）　② 異常發生後做什麼（執行動作）　③ 誰來負責、有沒有做（稽核紀錄）</p>
+  </div>
+</section>
+
+<hr>
+
+<!-- CASE 1 -->
+<section>
+  <div class="slabel">模擬案例一</div>
+  <h2>空調箱冷凍機效率下降 <span>— 自動偵測到派工全過程</span></h2>
+  <p>潔淨室的空調箱靠冷凍機維持溫度與濕度。當冷凍效率悄悄下滑，良率就開始受影響——但往往要等到正式故障，人才發現。以下是系統如何提前處理。</p>
+
+  <div class="case">
+    <div class="case-hd hvac">
+      <div class="case-ico">❄️</div>
+      <div>
+        <div class="case-lbl">空調系統 — 冷凍機效率監控</div>
+        <div class="case-ttl">效率持續偏低 → 自動啟動維修流程</div>
+        <div class="case-dsc">監測機組：AHU-B3-07 · 警戒條件：冷凍效率連續 15 分鐘低於標準值</div>
+      </div>
+    </div>
+    <div class="flow">
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n1">1</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">偵測</div>
+          <div class="fstep-title">感測器發現問題</div>
+          <div class="fstep-body">系統每分鐘持續比對感測數值與設定的正常範圍。AHU-B3-07 的冷凍效率連續 18 分鐘偏低，系統自動判定為異常，記錄時間點與機組編號。</div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n2">2</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">判斷</div>
+          <div class="fstep-title">理解問題的嚴重程度</div>
+          <div class="fstep-body">系統不只是「發現數值異常」，還會結合這台機器的歷史紀錄、目前負載狀況，判斷這次異常最可能的原因，以及影響哪個區域。</div>
+          <div class="detail">
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">推判原因：冷媒洩漏或熱交換器結垢（機率較高）</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">影響範圍：B3 潔淨室，若不處理，4 小時內溫度可能超標</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">風險等級：高（評分 0.82，超過需人工確認的門檻）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n3">3</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">處理</div>
+          <div class="fstep-title">自動開立維修工單</div>
+          <div class="fstep-body">系統自動建立一張緊急維修工單，設定 4 小時內必須完成的期限，並標注可能原因供工程師參考，不用從零開始診斷。</div>
+          <div class="safety">
+            <span class="safety-ico">🔒</span>
+            <div class="safety-txt"><strong>需要人工確認：</strong>因為這次風險評分較高，系統不會直接停機——而是立刻通知設施主管，等主管確認後才執行。確保高風險決策不被自動化跳過。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n4">4</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">指派</div>
+          <div class="fstep-title">找到對的人來處理</div>
+          <div class="fstep-body">系統根據工程師的專長（冷凍空調）與當天班表，自動指派責任人，並透過廠務系統推播通知。每個環節都有時間戳記——誰接了這個工單、什麼時候接的、做了什麼——全部留存可查。</div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n5">5</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">連鎖更新</div>
+          <div class="fstep-title">維修完成後，自動通知所有相關部門</div>
+          <div class="fstep-body">工單處理完畢後，系統不需要人工逐一打電話——自動向相關部門廣播結果：</div>
+          <div class="prop-cards">
+            <div class="prop-card">
+              <div class="prop-dept">能源管理</div>
+              <div class="prop-msg">標記這段異常時間的能耗紀錄，更新月度效能報表。</div>
+            </div>
+            <div class="prop-card">
+              <div class="prop-dept">生產排程</div>
+              <div class="prop-msg">通知相關站台 B3 區可能降溫 90 分鐘，建議調整生產順序。</div>
+            </div>
+            <div class="prop-card">
+              <div class="prop-dept">設備管理</div>
+              <div class="prop-msg">更新這台冷凍機的維修紀錄，重新計算下次保養時間。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CASE 2 -->
+<section>
+  <div class="slabel">模擬案例二</div>
+  <h2>超純水過濾器堵塞 <span>— 同一套系統，換個模組就搞定</span></h2>
+  <p>超純水是晶圓清洗的關鍵用水。過濾器慢慢堵塞時，水壓差距會逐漸增大。等到影響水質才發現，往往已經太晚。這個案例展示：<strong>系統完全沒有重新開發</strong>，只換了「監控邏輯模組」，就能處理完全不同的廠務問題。</p>
+
+  <div class="case">
+    <div class="case-hd upw">
+      <div class="case-ico">💧</div>
+      <div>
+        <div class="case-lbl">超純水系統 — 過濾器堵塞監控</div>
+        <div class="case-ttl">水壓差異常 → 啟動緊急換濾流程</div>
+        <div class="case-dsc">監測位置：UPW-LOOP-F03 過濾器組 · 警戒條件：進出口壓差持續 5 分鐘超標</div>
+      </div>
+    </div>
+    <div class="flow">
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n1">1</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">偵測</div>
+          <div class="fstep-title">進出水壓差超過警戒值</div>
+          <div class="fstep-body">系統持續比對過濾器前後的水壓差距。F03 過濾器組的壓差在 6 分鐘內維持在 0.34 bar，超過 0.30 bar 的更換警戒線，觸發異常處理。</div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n2">2</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">判斷</div>
+          <div class="fstep-title">估算剩餘可用時間，評估影響站台</div>
+          <div class="fstep-body">系統根據歷史堵塞紀錄與目前壓差變化速率，推算這個過濾器大約還能撐多久，以及哪些製程站台會受影響。</div>
+          <div class="detail">
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">預估過濾器還有約 6.5 小時可用</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">若不處理，濕蝕刻站與研磨站台的供水量將不足</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-dot"></span>
+              <span class="detail-txt">風險等級：緊急（評分 0.91，超過強制通知主管的門檻）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n3">3</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">處理</div>
+          <div class="fstep-title">同時啟動換濾工單、確認備料、通知排程</div>
+          <div class="fstep-body">系統不只開工單——在同一時間，自動查詢倉庫備料庫存、計算換濾所需的作業時間，並通知生產排程部門預留停機窗口。</div>
+          <div class="detail">
+            <div class="detail-row"><span class="detail-dot"></span><span class="detail-txt">緊急換濾工單已建立，期限 2 小時內完成</span></div>
+            <div class="detail-row"><span class="detail-dot"></span><span class="detail-txt">備用濾膜庫存確認：倉庫有 4 件，可立即取用</span></div>
+            <div class="detail-row"><span class="detail-dot"></span><span class="detail-txt">通知生產排程：相關站台預計停機 90 分鐘</span></div>
+          </div>
+          <div class="safety">
+            <span class="safety-ico">🔒</span>
+            <div class="safety-txt"><strong>強制等待主管確認：</strong>這次風險更高，系統設有 15 分鐘等待窗口，設施主管必須確認後才能執行換濾。這個設計確保緊急狀況下人還是有最終決定權。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n4">4</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">指派</div>
+          <div class="fstep-title">超純水專責工程師 + 生產排程主管</div>
+          <div class="fstep-body">系統依專長自動指派超純水系統工程師執行換濾作業，同時通知生產排程主管協調站台停機時間。整個指派過程與執行結果都有完整的時間紀錄，事後可查誰在何時做了什麼決定。</div>
+        </div>
+      </div>
+
+      <div class="fstep">
+        <div class="fstep-l"><div class="fnum n5">5</div></div>
+        <div class="fstep-r">
+          <div class="fstep-label">連鎖更新</div>
+          <div class="fstep-title">換濾完成後，各部門自動收到通知</div>
+          <div class="prop-cards">
+            <div class="prop-card">
+              <div class="prop-dept">水質管理</div>
+              <div class="prop-msg">記錄本次堵塞事件，更新這個過濾器的使用履歷，重新計算下次預防換濾時間。</div>
+            </div>
+            <div class="prop-card">
+              <div class="prop-dept">生產排程</div>
+              <div class="prop-msg">發送恢復通知給濕蝕刻與研磨站台，站台可重新排入生產佇列。</div>
+            </div>
+            <div class="prop-card">
+              <div class="prop-dept">採購管理</div>
+              <div class="prop-msg">庫存剩 3 件，低於安全水位，自動觸發補貨申請，不用等人發現才下單。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- VALUE -->
+<section>
+  <div class="slabel">對廠務業主的價值</div>
+  <h2>這套做法解決了什麼問題？</h2>
+  <div class="values">
+    <div class="val-card">
+      <div class="val-icon">⏱</div>
+      <div class="val-title">從發現到派工，全自動</div>
+      <div class="val-desc">不需要人盯著儀表板，系統自動從偵測到開工單、到指派責任人，全程不中斷。</div>
+    </div>
+    <div class="val-card">
+      <div class="val-icon">🔗</div>
+      <div class="val-title">一個問題，全廠同步知道</div>
+      <div class="val-desc">處理完不需要逐一通知，相關部門自動收到更新，不漏接、不延誤。</div>
+    </div>
+    <div class="val-card">
+      <div class="val-icon">📋</div>
+      <div class="val-title">每個決定都有紀錄可查</div>
+      <div class="val-desc">誰在什麼時間做了什麼決定、根據哪個數據——全部留存，方便稽核與改善。</div>
+    </div>
+    <div class="val-card">
+      <div class="val-icon">🔌</div>
+      <div class="val-title">換個場景不用重來</div>
+      <div class="val-desc">同一套平台，換個模組就能處理超純水、採購或其他廠務業務，不需重新開發。</div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<!-- CTA -->
+<section>
+  <div class="cta-box">
+    <h3>想進一步了解如何導入？</h3>
+    <p>歡迎直接聯絡，討論貴廠的具體情境與可行性。</p>
+    <a class="cta-btn" href="mailto:chienpu@ntut.edu.tw">聯絡黃千溥 助理教授</a>
+    <div class="cta-detail">
+      或查看 <a href="https://built-insight.org/2026htfa-case/index.html">技術版說明</a>（含完整系統架構與驗證數據）
+    </div>
+  </div>
+</section>
+
+</div>
+<footer>
+  <p>© 2026 黃千溥 助理教授 · 國立臺北科技大學土木工程系</p>
+  <p style="margin-top:4px;"><a href="https://built-insight.org/">built-insight.org</a> · <a href="mailto:chienpu@ntut.edu.tw">chienpu@ntut.edu.tw</a></p>
+</footer>
+</body>
+</html>

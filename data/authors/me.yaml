@@ -1,0 +1,117 @@
+schema: hugoblox/author/v1
+slug: me
+is_owner: true
+name:
+  display: Chien-Pu (Nora) Huang
+  given: Chien-Pu
+  family: Huang
+  alternate: '黃千溥'
+  pronunciation: ''
+  pronouns: ''
+postnominals:
+  - PhD
+status:
+  icon: "🏗️"
+role: Assistant Professor
+bio: |
+  Assistant Professor at National Taipei University of Technology (Taipei Tech, NTUT) specializing in semantic digital twin frameworks, graph-native knowledge architectures, and AI-driven automation for smart built environments. Licensed architect with industry experience spanning high-tech facility engineering and construction management.
+affiliations:
+  - name: Taipei Tech (NTUT)
+    url: https://ce.ntut.edu.tw/
+links:
+  - icon: at-symbol
+    url: mailto:chienpu@gmail.com
+    label: E-mail Me
+  - icon: brands/linkedin
+    url: https://www.linkedin.com/in/chienpu/
+  - icon: brands/github
+    url: https://github.com/chienpu
+  - icon: academicons/google-scholar
+    url: https://scholar.google.com/citations?user=7R8EI5UAAAAJ&hl=en
+  - icon: academicons/orcid
+    url: https://orcid.org/0009-0000-2364-6080
+    label: ORCID
+interests:
+  - Engineering Data Governance
+  - Semantic Event-Driven Digital Twins
+  - Lifecycle Carbon Governance
+  - Smart Construction Process Automation
+  - Knowledge Graph & Ontology
+education:
+  - degree: PhD in Civil Engineering
+    institution: National Taiwan University
+    end: 2026
+  - degree: MArch in Architecture
+    institution: National Chiao Tung University (now NYCU)
+    end: 2003
+  - degree: BArch in Architecture
+    institution: National Cheng Kung University
+    end: 2000
+experience:
+  - role: Assistant Professor
+    org: National Taipei University of Technology (Taipei Tech)
+    start: 2026-08-01
+  - role: Postdoctoral Researcher
+    org: National Taiwan University, CAE Lab
+    start: 2026-02-01
+    end: 2026-07-31
+  - role: Visiting Research Scholar (NSTC)
+    org: University of Houston, USA
+    start: 2025-01-01
+    end: 2025-12-31
+  - role: Senior Engineer
+    org: Taiwan Semiconductor Manufacturing Company (TSMC)
+    start: 2022-08-01
+    end: 2023-03-31
+  - role: Teaching Assistant — Engineering Graphics
+    org: National Taiwan University
+    start: 2020-09-01
+    end: 2021-06-30
+  - role: Registered Architect
+    org: Design Injoy Architects & Associates
+    start: 2013-10-01
+    end: 2019-11-30
+skills:
+  - name: Research & Informatics
+    items:
+      - label: Semantic Web & Ontology
+      - label: Knowledge Graph (Neo4j)
+      - label: BIM (Revit, IFC, OpenBIM)
+      - label: Digital Twin Frameworks
+      - label: Workflow Automation (n8n)
+      - label: SPARQL / Cypher
+      - label: Python
+  - name: Construction & Engineering
+    items:
+      - label: Construction Management
+      - label: Facility Management
+      - label: Engineering Governance
+      - label: Cost Estimation
+      - label: Building Regulations
+  - name: Certifications
+    items:
+      - label: Registered Architect (Taiwan)
+      - label: BSI Certified BIM Professional
+      - label: Community Architect, Taipei City
+      - label: Public Building Safety Inspector
+awards:
+  - title: Best Paper Award
+    date: 2026-06-23
+    awarder: ISARC 2026 (43rd International Symposium on Automation and Robotics in Construction)
+  - title: College of Engineering Dean's Award (工程院長獎)
+    date: 2025-12-01
+    awarder: National Taiwan University
+  - title: Best Paper Award
+    date: 2025-11-01
+    awarder: 29th Symposium on Construction Engineering and Management
+  - title: NSTC Graduate Students Study Abroad Fellowship (千里馬計畫)
+    date: 2025-01-01
+    awarder: National Science and Technology Council (NSTC)
+
+languages:
+  - name: Mandarin Chinese
+    percent: 100
+  - name: English
+    percent: 80
+  - name: Taiwanese
+    percent: 70

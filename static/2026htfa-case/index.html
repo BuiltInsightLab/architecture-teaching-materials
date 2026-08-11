@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>廠務語意執行案例｜HTFA 2026 補充說明</title>
+<meta name="description" content="以冷凍機異常與超純水壓差異常為例，完整展示 TIAA 語意執行與跨域傳播過程。">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{--purple:#534AB7;--purple2:#7F77DD;--purple3:#CECBF6;--purpleL:#EEEDFE;--green:#1D9E75;--green2:#5DCAA5;--greenL:#E1F5EE;--amber:#BA7517;--amberL:#FAEEDA;--coral:#D85A30;--coralL:#FAECE7;--gray9:#18181a;--gray7:#3d3d3a;--gray5:#73726c;--gray3:#d3d1c7;--gray1:#f4f3ef;--white:#ffffff;--r:10px;--rl:16px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.72;color:var(--gray7);background:var(--white)}
+nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.93);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.07);padding:0 1.5rem;height:50px;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{font-size:13px;font-weight:600;color:var(--purple);text-decoration:none;letter-spacing:-0.01em}
+.nav-back{font-size:12px;color:var(--gray5);text-decoration:none;display:flex;align-items:center;gap:4px;transition:color .15s}
+.nav-back:hover{color:var(--purple)}
+.page{max-width:820px;margin:0 auto;padding:0 1.5rem 5rem}
+.hero{padding:3rem 0 2.5rem;border-bottom:1px solid rgba(0,0,0,0.07);margin-bottom:3rem}
+.eyebrow{display:inline-flex;align-items:center;font-size:11px;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;color:var(--purple);background:var(--purpleL);padding:3px 11px;border-radius:99px;margin-bottom:1.1rem}
+h1{font-size:clamp(1.5rem,3.5vw,2rem);font-weight:600;line-height:1.2;color:var(--gray9);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.hero-sub{font-size:15px;color:var(--gray5);margin-bottom:1.5rem;max-width:580px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:1.25rem;font-size:12px;color:var(--gray5)}
+section{margin-bottom:3.5rem}
+.slabel{font-size:10px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem}
+h2{font-size:1.3rem;font-weight:600;color:var(--gray9);margin-bottom:0.6rem;letter-spacing:-0.015em}
+h2 span{font-weight:400;color:var(--gray5)}
+p{margin-bottom:0.75rem;color:var(--gray7)}
+p:last-child{margin-bottom:0}
+.video-wrap{position:relative;padding-top:56.25%;border-radius:var(--rl);overflow:hidden;border:1px solid rgba(0,0,0,0.07);margin:1.25rem 0}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.img-block{margin:1.5rem 0}
+.img-block img{width:100%;border-radius:var(--rl);border:1px solid rgba(0,0,0,0.07);display:block}
+figcaption{font-size:12px;color:var(--gray5);text-align:center;margin-top:0.5rem;font-style:italic}
+.framework{background:var(--purpleL);border-radius:var(--rl);padding:1.1rem 1.25rem;margin:1.25rem 0;border:1px solid rgba(83,74,183,0.12)}
+.pills{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-bottom:0.75rem}
+.pill{background:var(--white);border-radius:99px;padding:4px 13px;font-size:12px;font-weight:500;color:var(--purple);border:1px solid rgba(83,74,183,0.2);white-space:nowrap}
+.pill-arr{font-size:11px;color:var(--purple2)}
+.pill.prop{color:var(--coral);border-color:rgba(216,90,48,0.25)}
+.framework p{font-size:13px;color:var(--purple);margin-bottom:0}
+.case-card{border:1px solid rgba(0,0,0,0.08);border-radius:var(--rl);overflow:hidden;margin-top:1.25rem}
+.case-hd{padding:1rem 1.25rem;display:flex;align-items:flex-start;gap:12px}
+.case-hd.hvac{background:var(--purpleL);border-bottom:1px solid rgba(83,74,183,0.12)}
+.case-hd.upw{background:var(--greenL);border-bottom:1px solid rgba(29,158,117,0.12)}
+.case-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.hvac .case-ico{background:var(--purple)}
+.upw .case-ico{background:var(--green)}
+.case-lbl{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:2px}
+.hvac .case-lbl{color:var(--purple)}
+.upw .case-lbl{color:var(--green)}
+.case-ttl{font-size:15px;font-weight:600;color:var(--gray9)}
+.case-dsc{font-size:12px;color:var(--gray5);margin-top:2px}
+.steps{padding:1.5rem 1.25rem;display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:52px 1fr;gap:0 10px;position:relative}
+.step:not(:last-child)::before{content:'';position:absolute;left:25px;top:42px;bottom:-8px;width:2px;background:var(--gray3)}
+.step-l{display:flex;flex-direction:column;align-items:center;padding-top:5px}
+.badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;letter-spacing:0.03em;flex-shrink:0;position:relative;z-index:1}
+.bT{background:var(--purple3);color:#26215C}
+.bI{background:#FAC775;color:#412402}
+.bA{background:var(--green);color:var(--white)}
+.bAc{background:var(--purpleL);color:var(--purple);border:1px solid var(--purple3)}
+.bP{background:var(--coralL);color:var(--coral);border:1px solid #F0997B}
+.step-r{padding:3px 0 1.75rem}
+.step-name{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray5);margin-bottom:3px}
+.step-main{font-size:14px;font-weight:500;color:var(--gray9);margin-bottom:4px}
+.step-desc{font-size:13px;color:var(--gray5);line-height:1.55;margin-bottom:6px}
+pre{font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.55;background:var(--purpleL);color:#26215C;border-radius:7px;padding:10px 13px;border-left:2px solid var(--purple2);margin-bottom:6px;overflow-x:auto;white-space:pre}
+pre.green{background:var(--greenL);color:#085041;border-left-color:var(--green2)}
+pre.coral{background:var(--coralL);color:#4A1B0C;border-left-color:var(--coral)}
+.aast{display:flex;gap:8px;align-items:flex-start;background:var(--amberL);border-radius:7px;padding:8px 11px;margin-top:6px;border-left:2px solid var(--amber)}
+.aast-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.aast-txt{font-size:12px;color:#633806;line-height:1.55}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:8px;margin-top:8px}
+.prop-branch{background:var(--coralL);border:1px solid rgba(216,90,48,0.18);border-radius:8px;padding:10px 12px}
+.prop-domain{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--coral);margin-bottom:4px}
+.prop-arrow{font-size:12px;color:var(--coral);margin-bottom:4px}
+.prop-content{font-size:12px;color:#4A1B0C;line-height:1.5}
+hr{border:none;border-top:1px solid rgba(0,0,0,0.07);margin:2.5rem 0}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:1.5rem 0}
+.metric{background:var(--gray1);border-radius:var(--r);padding:1rem 1.1rem}
+.mval{font-size:1.65rem;font-weight:600;line-height:1;margin-bottom:3px}
+.mval.p{color:var(--purple)}.mval.g{color:var(--green)}
+.mlbl{font-size:11.5px;color:var(--gray5);line-height:1.45}
+.clarify{font-size:12.5px;color:var(--gray5);line-height:1.65;background:var(--gray1);border-radius:var(--r);padding:10px 14px;margin-top:0.75rem;border-left:2px solid var(--gray3)}
+.papers{display:flex;flex-direction:column;gap:9px}
+.paper{display:flex;align-items:center;gap:12px;background:var(--gray1);border-radius:var(--rl);padding:0.9rem 1.1rem;text-decoration:none;color:inherit;border:1px solid transparent;transition:border-color .15s}
+.paper:hover{border-color:var(--purple2)}
+.paper-ico{font-size:20px;flex-shrink:0}
+.paper-ttl{font-size:13px;font-weight:500;color:var(--gray9);margin-bottom:2px}
+.paper-meta{font-size:11px;color:var(--gray5)}
+footer{border-top:1px solid rgba(0,0,0,0.07);padding:1.5rem 0;font-size:12px;color:var(--gray5);text-align:center}
+footer a{color:var(--purple);text-decoration:none}abbr{text-decoration:underline dotted;cursor:help;color:inherit}
+#pw-overlay {
+  position:fixed; inset:0; z-index:9999;
+  background:var(--white);
+  display:flex; align-items:center; justify-content:center;
+  padding:1.5rem;
+}
+.pw-box {
+  max-width:360px; width:100%;
+  background:var(--gray1); border-radius:var(--rl);
+  padding:2rem 2rem 1.75rem;
+  border:1px solid rgba(0,0,0,0.08);
+  text-align:center;
+}
+.pw-logo {
+  font-size:11px; font-weight:700; letter-spacing:0.09em; text-transform:uppercase;
+  color:var(--purple); margin-bottom:1.5rem;
+}
+.pw-title { font-size:1.1rem; font-weight:600; color:var(--gray9); margin-bottom:0.4rem; }
+.pw-desc  { font-size:13px; color:var(--gray5); margin-bottom:1.25rem; }
+.pw-input-wrap { position:relative; margin-bottom:0.75rem; }
+#pw-input {
+  width:100%; padding:10px 14px; font-size:15px; font-family:inherit;
+  border:1px solid var(--gray3); border-radius:var(--r);
+  background:var(--white); color:var(--gray9); outline:none;
+  text-align:center; letter-spacing:0.1em;
+  transition:border-color .15s;
+}
+#pw-input:focus { border-color:var(--purple2); }
+#pw-input.error { border-color:#E24B4A; animation:shake .3s; }
+@keyframes shake {
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  75%{transform:translateX(6px)}
+}
+#pw-btn {
+  width:100%; padding:10px; font-size:14px; font-weight:500; font-family:inherit;
+  background:var(--purple); color:var(--white);
+  border:none; border-radius:var(--r); cursor:pointer;
+  transition:opacity .15s;
+}
+#pw-btn:hover { opacity:0.88; }
+#pw-err { font-size:12px; color:#A32D2D; margin-top:6px; min-height:18px; }
+.pw-hint { font-size:11px; color:var(--gray5); margin-top:1.25rem; }
+.pw-hint a { color:var(--purple); text-decoration:none; }
+
+@media(max-width:520px){h1{font-size:1.3rem}.steps{padding:1rem}.metrics{grid-template-columns:1fr 1fr}.prop-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-logo">HTFA 2026 · 技術版說明</div>
+    <div class="pw-title">請輸入存取密碼</div>
+    <div class="pw-desc">此頁面供有合作廠商與工作夥伴參閱，<br>包含完整系統架構與驗證方法說明。</div>
+    <div class="pw-input-wrap">
+      <input id="pw-input" type="password" placeholder="輸入密碼" autocomplete="off"
+             onkeydown="if(event.key==='Enter')checkPw()">
+    </div>
+    <button id="pw-btn" onclick="checkPw()">進入</button>
+    <div id="pw-err"></div>
+    <div class="pw-hint">一般說明請見 <a href="index-biz.html">← 廠務業主版</a></div>
+  </div>
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://built-insight.org/">Chien-Pu Huang</a>
+  <a class="nav-back" href="https://built-insight.org/events/htfa-2026-ai-facility/">← 返回演講頁面</a>
+</nav>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">HTFA 2026 · 海報補充說明</div>
+  <h1>廠務案例：TIAA 語意執行<br>與跨域傳播完整過程</h1>
+  <p class="hero-sub">以空調箱冷凍機效率異常、超純水系統壓差異常為例，展示可插拔語意執行框架（SAM）從感測觸發到跨域傳播的完整決策鏈。</p>
+  <div class="hero-meta">
+    <span>黃千溥 助理教授 · 國立臺北科技大學</span>
+    <span>HTFA 2026 · 台中新烏日 · 2026.06.12</span>
+  </div>
+</header>
+
+<section>
+  <div class="slabel">研究說明影片</div>
+  <h2>系統概念介紹</h2>
+  <p>以下影片說明本研究核心概念——如何透過可插拔領域知識模組，讓設施管理系統快速部署、跨域複用，並保留完整的決策稽核紀錄。</p>
+  <div class="video-wrap">
+    <iframe src="https://www.youtube.com/embed/z-s6uSZtOwY" title="可插拔語意執行架構研究說明" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  </div>
+</section>
+
+<section>
+  <div class="slabel">框架概念</div>
+  <h2>可插拔領域知識模組（Domain Packs）</h2>
+  <p>每一個 Domain Pack 封裝特定領域的觸發條件、語意規則、執行動作與稽核邏輯。同一套通用執行環境（<abbr title="Semantic Action Management，語意動作管理——本研究的核心執行方法論">SAM</abbr> Runtime）可載入不同 Pack，無需重新開發即可處理新場域。</p>
+  <figure class="img-block">
+    <img src="智慧設施管理模組化系統.png" alt="可插拔式領域知識模組示意圖" onerror="this.parentElement.style.display='none'">
+    <figcaption>同一套 SAM 執行環境可插入 PdM、Knowledge、Procurement 等不同模組，實現跨領域零代碼遷移</figcaption>
+  </figure>
+  <div class="framework">
+    <div class="pills">
+      <span class="pill">T&nbsp; Trigger 觸發</span><span class="pill-arr">→</span>
+      <span class="pill">I&nbsp; Issue 議題</span><span class="pill-arr">→</span>
+      <span class="pill">A&nbsp; Action 行動</span><span class="pill-arr">→</span>
+      <span class="pill">Ac Actor 執行者</span><span class="pill-arr">→</span>
+      <span class="pill prop">P&nbsp; Propagation 跨域傳播</span>
+    </div>
+    <p>TIAA 是最小可執行語意單元。每個感測異常事件被解析為完整的四元組，執行完畢後透過 <strong>Propagation</strong> 機制向鄰近知識域廣播，維持整體系統語意一致性。</p>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="slabel">案例一</div>
+  <h2>空調箱冷凍機效率異常 <span>— HVAC PdM Pack</span></h2>
+  <p>半導體廠潔淨室的空調箱依賴冷凍機維持恆溫恆濕。當冷凍效率下降，晶圓良率直接受影響。以下展示 HVAC PdM Pack 如何完成從感測到派工，再到跨域傳播的完整鏈路。</p>
+  <div class="case-card">
+    <div class="case-hd hvac">
+      <div class="case-ico">❄️</div>
+      <div>
+        <div class="case-lbl">HVAC PdM Domain Pack</div>
+        <div class="case-ttl">冷凍機效率異常偵測與維修派工</div>
+        <div class="case-dsc">監測對象：AHU-B3-07 冷凍機組 · COP &lt; 3.2 或 ΔT &gt; 5°C 持續 15 分鐘</div>
+      </div>
+    </div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-l"><div class="badge bT">T</div></div>
+        <div class="step-r">
+          <div class="step-name">Trigger · 感測觸發</div>
+          <div class="step-main">溫度與能效感測器回報異常</div>
+          <div class="step-desc">AHU-B3-07 的 COP 連續 18 分鐘低於閾值，Neo4j 即時查詢觸發語意驗證流程。</div>
+<p style="font-size:12px;color:var(--gray5);margin-bottom:4px;"><abbr title="Shapes Constraint Language，W3C 語意約束語言——用來定義並驗證資料必須符合的條件">SHACL</abbr> 語意約束規則：定義「什麼情況下算異常」，系統自動比對感測值是否觸發。</p><pre>// SHACL 觸發規則
+sh:ChillerCOPConstraint
+  sh:path         fab:currentCOP ;
+  sh:maxInclusive 3.2 ;
+  sh:minCount     1 .
+
+// Neo4j Cypher — 異常偵測
+MATCH (s:Sensor)-[:MONITORS]->(c:Chiller)
+WHERE s.COP &lt; 3.2
+  AND duration.between(s.lastNormal, s.now).minutes > 15
+RETURN c.id, s.COP, s.timestamp</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bI">I</div></div>
+        <div class="step-r">
+          <div class="step-name">Issue · 語意議題解讀</div>
+          <div class="step-main">冷凍效率衰退（可能：冷媒洩漏、熱交換器結垢、壓縮機磨損）</div>
+          <div class="step-desc">LLM 推論引擎結合歷史維修紀錄與設備參數，將感測數值轉化為可理解的設施管理議題，評估風險等級。</div>
+<pre>Issue {
+  id:            "ISS-2026-0612-001",
+  type:          "ChillerEfficiencyDegradation",
+  severity:      "HIGH",
+  affectedAsset: "AHU-B3-07",
+  probableCause: ["refrigerant_leak", "fouling"],
+  impactZone:    "CleanroomB3",
+  riskScore:     0.82
+}</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bA">A</div></div>
+        <div class="step-r">
+          <div class="step-name">Action · 自動執行動作</div>
+          <div class="step-main">建立工單 + AAST 判斷是否需人工升級</div>
+          <div class="step-desc">系統自動建立 WorkOrder，AAST 機制判斷風險是否超過自動執行門檻。</div>
+<pre>WorkOrder {
+  id:            "WO-2026-0612-038",
+  priority:      "URGENT",
+  type:          "ChillerInspection",
+  sla:           "4h",
+  linkedIssue:   "ISS-2026-0612-001",
+  autoGenerated: true
+}</pre>
+          <div class="aast">
+            <span class="aast-ico">⚖️</span>
+            <div class="aast-txt"><strong><abbr title="Actor Assignment Safety Threshold，人機協作安全門檻——判斷哪些決策須人工確認、哪些可自動執行">AAST</abbr> 判斷：</strong>風險評分 0.82 超過門檻（0.75），系統自動升級通報設施主管，並暫停非必要冷卻負載調度，等待人工確認後再執行設備停機。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bAc">Ac</div></div>
+        <div class="step-r">
+          <div class="step-name">Actor · 執行者指派</div>
+          <div class="step-main">廠務工程師（冷凍空調）+ 設施主管（核准停機）</div>
+          <div class="step-desc">根據技能矩陣與當班排班自動指派責任工程師。所有決策步驟由 PROV-O 記錄，可完整重建執行路徑。</div>
+<p style="font-size:12px;color:var(--gray5);margin-bottom:4px;"><abbr title="PROV Ontology，W3C 標準的來源紀錄格式——確保每個決策步驟都有誰做了什麼、在什麼時間、根據什麼資料的完整紀錄">PROV-O</abbr> 稽核紀錄：記錄「誰、何時、根據哪筆資料、做了什麼決定」，可完整重建執行路徑。</p><pre class="green">// PROV-O 稽核紀錄
+prov:Activity { id: "exec-WO-038" }
+  prov:wasAssociatedWith :Engineer_Lin ;
+  prov:wasInformedBy     :Issue-001 ;
+  prov:startedAtTime     "2026-06-12T14:52:03Z" ;
+  prov:used              :ChillerSensorReading-4821 .</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bP">P</div></div>
+        <div class="step-r">
+          <div class="step-name">Propagation · 跨域傳播</div>
+          <div class="step-main">執行結果向鄰近知識域廣播，維持整體語意一致性</div>
+          <div class="step-desc">WO-038 執行完畢後，SAM Runtime 自動識別受影響的鄰近域，以標準化語意事件格式傳遞更新訊息，無需人工通知。</div>
+<pre class="coral">// 跨域傳播事件（SAM Propagation Bus）
+PropagationEvent {
+  source:    "HVAC-PdM-Pack",
+  trigger:   "WO-038-completed",
+  timestamp: "2026-06-12T16:34:00Z",
+  targets:   ["EnergyMonitoring", "ProductionScheduling", "AssetLifecycle"]
+}</pre>
+          <div class="prop-grid">
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">能源監控域</div>
+              <div class="prop-content">標記 14:35–16:34 該機組能耗異常區間；更新月度能效基準值。</div>
+            </div>
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">生產排程域</div>
+              <div class="prop-content">預警 CleanroomB3 可能降溫 90 分鐘；建議排程調整 Wet-Etch-A 站台優先級。</div>
+            </div>
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">設備履歷域</div>
+              <div class="prop-content">更新 AHU-B3-07 維修紀錄；觸發下次預防保養提前計算（MTBF 重估）。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="slabel">案例二</div>
+  <h2>超純水系統壓差異常 <span>— UPW Monitoring Pack</span></h2>
+  <p>超純水（UPW）是半導體製程清洗用水，水質與水壓直接影響良率。以下展示<strong>同一套 SAM 框架換上 UPW Monitoring Pack</strong> 後的執行過程——框架完全不動，只換了知識模組。</p>
+  <div class="case-card">
+    <div class="case-hd upw">
+      <div class="case-ico">💧</div>
+      <div>
+        <div class="case-lbl">UPW Monitoring Domain Pack</div>
+        <div class="case-ttl">濾膜堵塞偵測與緊急換濾作業</div>
+        <div class="case-dsc">監測對象：UPW-LOOP-F03 過濾器組 · ΔP &gt; 0.3 bar 且持續 5 分鐘</div>
+      </div>
+    </div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-l"><div class="badge bT">T</div></div>
+        <div class="step-r">
+          <div class="step-name">Trigger · 感測觸發</div>
+          <div class="step-main">壓差感測器偵測到濾膜前後壓力差超標</div>
+          <div class="step-desc">UPW Loop F03 進出口壓差在 6 分鐘內維持在 0.34 bar，觸發 SHACL 語意驗證。</div>
+<p style="font-size:12px;color:var(--gray5);margin-bottom:4px;"><abbr title="Shapes Constraint Language，W3C 語意約束語言——用來定義並驗證資料必須符合的條件">SHACL</abbr> 語意約束規則：定義濾膜更換的壓差門檻，系統自動比對是否觸發換濾流程。</p><pre>sh:UPWPressureConstraint
+  sh:path         fab:differentialPressure ;
+  sh:minInclusive 0.30 ;
+  sh:message      "Filter fouling threshold exceeded" .
+
+ΔP_in:  2.41 bar（進水）
+ΔP_out: 2.07 bar（出水）
+ΔP:     0.34 bar  →  TRIGGER ✓</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bI">I</div></div>
+        <div class="step-r">
+          <div class="step-name">Issue · 語意議題解讀</div>
+          <div class="step-main">過濾器堵塞——預估剩餘壽命 &lt; 8 小時，供水量即將不足</div>
+          <div class="step-desc">知識圖譜結合歷史堵塞曲線與壓差變化率，推算最遲換濾時限，並評估影響的下游製程站台。</div>
+<pre>Issue {
+  type:                   "UPWFilterFouling",
+  severity:               "CRITICAL",
+  affectedFilter:         "UPW-LOOP-F03",
+  estimatedTimeToFailure: "6.5h",
+  downstreamImpact:       ["Wet-Etch-A", "CMP-B"],
+  riskScore:              0.91
+}</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bA">A</div></div>
+        <div class="step-r">
+          <div class="step-name">Action · 自動執行動作</div>
+          <div class="step-main">緊急換濾工單 + 下游預警 + 備用庫存確認</div>
+          <div class="step-desc">風險評分 0.91 直接觸發緊急流程，同時查詢備料庫存、計算換濾時間窗口，並通知生產排程調整。</div>
+<pre>Step 1: CREATE WorkOrder(type: EmergencyFilterChange, sla: 2h)
+Step 2: QUERY Inventory("UPW-F03-membrane") → stock: 4 units ✓
+Step 3: NOTIFY ProductionScheduler(
+          downtime: 90min,
+          stations: ["Wet-Etch-A", "CMP-B"])
+Step 4: ESCALATE FacilityManager(reason: riskScore > 0.9)</pre>
+          <div class="aast">
+            <span class="aast-ico">⚖️</span>
+            <div class="aast-txt"><strong><abbr title="Actor Assignment Safety Threshold，人機協作安全門檻——判斷哪些決策須人工確認、哪些可自動執行">AAST</abbr> 強制升級：</strong>風險評分 0.91 超過緊急門檻（0.85），系統鎖定自動換濾決策，要求設施主管在 15 分鐘內確認作業，確保人為監督不被跳過。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bAc">Ac</div></div>
+        <div class="step-r">
+          <div class="step-name">Actor · 執行者指派</div>
+          <div class="step-main">廠務工程師（UPW 系統）+ 生產主管（排程協調）</div>
+          <div class="step-desc">系統自動指派 UPW 專責工程師，並通知生產排程主管協調停線時間窗口。</div>
+<p style="font-size:12px;color:var(--gray5);margin-bottom:4px;"><abbr title="PROV Ontology，W3C 標準的來源紀錄格式">PROV-O</abbr> 稽核紀錄：同樣格式，確保 UPW 案例的決策路徑可被完整重建與稽核。</p><pre class="green">prov:Activity { id: "exec-WO-UPW-041" }
+  prov:wasAssociatedWith :Engineer_Chen ;
+  prov:wasAssociatedWith :Manager_Production ;
+  prov:used              :FilterPressureReading-9923 ;
+  prov:used              :InventoryQuery-result ;
+  prov:endedAtTime       "2026-06-12T16:18:44Z" .</pre>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-l"><div class="badge bP">P</div></div>
+        <div class="step-r">
+          <div class="step-name">Propagation · 跨域傳播</div>
+          <div class="step-main">換濾完成後，更新水質履歷並重啟下游站台供水</div>
+          <div class="step-desc">換濾作業完成後，SAM Runtime 自動向相關域廣播恢復訊號，確保各子系統語意狀態同步更新，無需人工逐一通報。</div>
+<pre class="coral">PropagationEvent {
+  source:    "UPW-Monitoring-Pack",
+  trigger:   "WO-UPW-041-completed",
+  timestamp: "2026-06-12T16:18:44Z",
+  targets:   ["WaterQualityRecord", "ProductionScheduling", "SupplyChain"]
+}</pre>
+          <div class="prop-grid">
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">水質履歷域</div>
+              <div class="prop-content">記錄本次堵塞事件至濾膜使用履歷；更新下次預防換濾時間（依壓差曲線重新預估）。</div>
+            </div>
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">生產排程域</div>
+              <div class="prop-content">發送恢復訊號至 Wet-Etch-A 與 CMP-B；解除預警狀態，站台可重新排入生產佇列。</div>
+            </div>
+            <div class="prop-branch">
+              <div class="prop-arrow">→</div>
+              <div class="prop-domain">供應鏈域</div>
+              <div class="prop-content">觸發備用濾膜採購申請（庫存剩 3 件，低於安全水位 5 件）；連結採購 Pack 自動下單。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section>
+  <div class="slabel">驗證結果</div>
+  <h2>研究驗證數據</h2>
+  <p>以下數據來自發表於 Advanced Engineering Informatics（AEI）之正式論文，以 HVAC 預測性維護情境為驗證場域。</p>
+  <div class="metrics">
+    <div class="metric"><div class="mval p">82.5%</div><div class="mlbl">任務自動化率<br>AI Tasks / Total Tasks</div></div>
+    <div class="metric"><div class="mval g">92%</div><div class="mlbl">異常偵測精確率<br>Precision (TP / TP+FP)</div></div>
+    <div class="metric"><div class="mval p">88%</div><div class="mlbl">異常偵測召回率<br>Recall (TP / TP+FN)</div></div>
+    <div class="metric"><div class="mval g">&gt;99%</div><div class="mlbl">來源重建成功率<br>PROV-O Provenance</div></div>
+    <div class="metric"><div class="mval p">0.75s</div><div class="mlbl">知識圖譜查詢回應<br>Per Anomaly Query</div></div>
+    <div class="metric"><div class="mval g">97.2%</div><div class="mlbl">語意一致性<br>Ontology Mapping Accuracy</div></div>
+  </div>
+  <div class="clarify"><strong>關於「100% 異常偵測準確率」：</strong>海報視覺圖中的 100% 指在受控模擬情境（單一異常類型、完整感測器覆蓋）下的偵測率。正式論文驗證場域涵蓋多種異常類型的 HVAC 系統，精確率 92%、召回率 88%，為更貼近真實部署條件的結果。兩組數字代表不同驗證情境。</div>
+</section>
+
+<hr>
+
+<section>
+  <div class="slabel">延伸閱讀</div>
+  <h2>相關發表論文</h2>
+  <div class="papers">
+    <a class="paper" href="https://doi.org/10.1016/j.aei.2025.104240" target="_blank" rel="noopener">
+      <span class="paper-ico">📄</span>
+      <div><div class="paper-ttl">Semantic Reasoning and Integration for Automating Predictive Maintenance in Smart Facility Management</div><div class="paper-meta">Advanced Engineering Informatics (AEI) · 2026 · DOI: 10.1016/j.aei.2025.104240</div></div>
+    </a>
+    <a class="paper" href="https://built-insight.org/publications/isarc-2026-plugplay/" target="_blank" rel="noopener">
+      <span class="paper-ico">🏆</span>
+      <div><div class="paper-ttl">A Plug-and-Play Semantic Execution Framework for Reusable Cross-Domain Automation in Digital Twins</div><div class="paper-meta">ISARC 2026 · Best Paper Award · Singapore</div></div>
+    </a>
+    <a class="paper" href="https://built-insight.org/events/htfa-2026-semicon-poster/" target="_blank" rel="noopener">
+      <span class="paper-ico">🎤</span>
+      <div><div class="paper-ttl">返回演講頁面：可插拔式語意決策引擎</div><div class="paper-meta">HTFA 2026 · 台灣高科技廠房設施協會</div></div>
+    </a>
+  </div>
+</section>
+
+</div>
+<footer>
+  <p>© 2026 Chien-Pu (Nora) Huang · National Taipei University of Technology</p>
+  <p style="margin-top:4px;"><a href="https://built-insight.org/">built-insight.org</a> · <a href="mailto:chienpu@ntut.edu.tw">chienpu@ntut.edu.tw</a></p>
+</footer>
+
+<script>
+(function(){
+  const KEY = 'htfa_tech_auth';
+  if(sessionStorage.getItem(KEY)==='1'){
+    document.getElementById('pw-overlay').style.display='none';
+  }
+})();
+function checkPw(){
+  const val = document.getElementById('pw-input').value.trim();
+  const inp = document.getElementById('pw-input');
+  const err = document.getElementById('pw-err');
+  // 密碼設在這裡，改成你要的密碼
+  if(val === 'norabilab'){
+    sessionStorage.setItem('htfa_tech_auth','1');
+    document.getElementById('pw-overlay').style.display='none';
+    err.textContent='';
+  } else {
+    inp.classList.add('error');
+    err.textContent='密碼錯誤，請再試一次。';
+    inp.value='';
+    setTimeout(()=>inp.classList.remove('error'), 400);
+  }
+}
+</script>
+
+</body>
+</html>
