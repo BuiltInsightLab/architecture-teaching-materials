@@ -1,15 +1,11 @@
 ---
-title: "智慧人居環境運維自動化研究——從幾何優先到語意優先的數位部署基礎設施"
-slug: "liming-2026-bim"
-event: "麗明營造 BIM 雙月例會"
+title: 智慧人居環境運維自動化研究——從幾何優先到語意優先的數位部署基礎設施
+slug: liming-2026-bim
 event_url: ""
-location: "Taipei, Taiwan"
-summary: "受邀於麗明營造 BIM 雙月例會發表演講，介紹語意事件驅動數位孿生框架與高科技場域地端 AI 部署實務。"
-abstract: "本演講以智慧人居環境運維自動化為核心，探討如何以現有 BIM 資料為起點，賦予建成環境語意推理與自動化決策能力。內容涵蓋 Stage 5 資訊斷點、語意鴻溝的定義與解方、地端 AI 在資安管制環境下的部署實務，以及智慧運維領域正在形成的四個競爭位置。"
-date: "2026-04-24T00:00:00Z"
-date_end: "2026-04-24T00:00:00Z"
-all_day: true
-publishDate: "2026-04-24T00:00:00Z"
+location: Taipei, Taiwan
+summary: 受邀於麗明營造 BIM 雙月例會發表演講，介紹語意事件驅動數位孿生框架與高科技場域地端 AI 部署實務。
+abstract: 本演講以智慧人居環境運維自動化為核心，探討如何以現有 BIM 資料為起點，賦予建成環境語意推理與自動化決策能力。內容涵蓋 Stage 5 資訊斷點、語意鴻溝的定義與解方、地端 AI 在資安管制環境下的部署實務，以及智慧運維領域正在形成的四個競爭位置。
+date: 2026-04-24T00:00:00Z
 authors:
   - me
 tags:
@@ -21,8 +17,13 @@ tags:
 featured: false
 image:
   caption: ""
-  focal_point: "Smart"
+  focal_point: Smart
+event_start: 2026-04-24T00:00:00Z
+event_end: 2026-04-24T00:00:00Z
+event_all_day: true
+event_name: 麗明營造 BIM 雙月例會
 ---
+
 
 受邀於麗明營造 BIM 雙月例會發表演講，分享智慧人居環境運維自動化研究成果。
 

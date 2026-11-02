@@ -1,15 +1,11 @@
 ---
-title: "可插拔式語意決策引擎：高科技廠務之可執行與可治理 AI 決策架構"
-slug: "htfa-2026-semicon-poster"
-event: "2026 SEMICON Taiwan 高科技廠房設施 R&D 專區"
-event_url: "https://www.semicontaiwan.org/"
-location: "Taipei Nangang Exhibition Center, Taipei, Taiwan"
-summary: "於 2026 SEMICON Taiwan 高科技廠房設施 R&D 專區發表學術海報，展示可插拔語意執行框架（SAM）在高科技廠務中的應用，包含冷凍機異常與超純水壓差異常完整案例。"
-abstract: "本海報展示以 Plug-and-Play 語意執行架構為基礎的高科技廠務 AI 決策框架。研究提出 TIAA（Trigger–Issue–Action–Actor）作為最小可執行語意單元，透過 Domain Pack 模組化設計實現跨領域零代碼遷移，並以 AAST 機制確保人機協作的安全邊界。驗證場域涵蓋 HVAC 預測性維護與超純水系統壓差監控，達成 82.5% 任務自動化率，並保留完整 PROV-O 稽核紀錄。"
-date: "2026-09-01T00:00:00Z"
-date_end: "2026-09-04T00:00:00Z"
-all_day: true
-publishDate: "2026-09-01T00:00:00Z"
+title: 可插拔式語意決策引擎：高科技廠務之可執行與可治理 AI 決策架構
+slug: htfa-2026-semicon-poster
+event_url: https://www.semicontaiwan.org/
+location: Taipei Nangang Exhibition Center, Taipei, Taiwan
+summary: 於 2026 SEMICON Taiwan 高科技廠房設施 R&D 專區發表學術海報，展示可插拔語意執行框架（SAM）在高科技廠務中的應用，包含冷凍機異常與超純水壓差異常完整案例。
+abstract: 本海報展示以 Plug-and-Play 語意執行架構為基礎的高科技廠務 AI 決策框架。研究提出 TIAA（Trigger–Issue–Action–Actor）作為最小可執行語意單元，透過 Domain Pack 模組化設計實現跨領域零代碼遷移，並以 AAST 機制確保人機協作的安全邊界。驗證場域涵蓋 HVAC 預測性維護與超純水系統壓差監控，達成 82.5% 任務自動化率，並保留完整 PROV-O 稽核紀錄。
+date: 2026-09-01T00:00:00Z
 authors:
   - me
 tags:
@@ -20,9 +16,14 @@ tags:
   - Domain Pack
 featured: true
 image:
-  caption: "可插拔式領域知識模組（Domain Packs）示意圖"
-  focal_point: "Center"
+  caption: 可插拔式領域知識模組（Domain Packs）示意圖
+  focal_point: Center
+event_start: 2026-09-01T00:00:00Z
+event_end: 2026-09-04T00:00:00Z
+event_all_day: true
+event_name: 2026 SEMICON Taiwan 高科技廠房設施 R&D 專區
 ---
+
 
 於 2026 SEMICON Taiwan 台灣高科技廠房設施協會（HTFA）R&D 專區發表學術海報。
 
